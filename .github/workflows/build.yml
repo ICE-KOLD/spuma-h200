@@ -38,4 +38,4 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/ice-kold/spuma-h200:latest
