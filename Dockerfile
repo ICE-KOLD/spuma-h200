@@ -34,17 +34,17 @@ RUN sed -i 's/^WM_COMPILER=.*/WM_COMPILER=Nvidia/' etc/bashrc && \
 # H200 = Hopper, compute capability 9.0
 ENV have_cuda=true
 ENV NVARCH=90
+ENV NVHPC_CUDA_HOME=/usr/local/cuda-12.6
+
+# Diagnostic: verify compiler and CUDA installation
+RUN nvc++ --version && \
+    ls -la /usr/local/cuda/bin/nvcc
 
 # Compile SPUMA
-RUN /bin/bash -lc 'source /opt/spuma/etc/bashrc && \
-    export have_cuda=true && \
-    export NVARCH=90 && \
-    ./Allwmake -j 2'
+RUN /bin/bash -lc 'source /opt/spuma/etc/bashrc && ./Allwmake -j 2'
 
 # Automatically initialise SPUMA in interactive shells
-RUN echo 'source /opt/spuma/etc/bashrc' >> /root/.bashrc && \
-    echo 'export have_cuda=true' >> /root/.bashrc && \
-    echo 'export NVARCH=90' >> /root/.bashrc
+RUN echo 'source /opt/spuma/etc/bashrc' >> /root/.bashrc
 
 WORKDIR /workspace
 
