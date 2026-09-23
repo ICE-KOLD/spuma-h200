@@ -35,8 +35,9 @@ RUN sed -i 's/^WM_COMPILER=.*/WM_COMPILER=Nvidia/' etc/bashrc && \
 ENV have_cuda=true
 ENV NVARCH=90
 
-# Find where SPUMA defines the NVIDIA GPU flags
-RUN grep -R -- "-gpu=cc" wmake/rules || true
+# Force NVHPC to use CUDA 12.6
+RUN sed -i 's/-gpu=cc$(NVARCH) -cuda/-gpu=cc$(NVARCH),cuda12.6 -cuda/' \
+    wmake/rules/General/Nvidia/c++
 
 # Compile SPUMA
 RUN /bin/bash -lc 'source /opt/spuma/etc/bashrc && ./Allwmake -j 2'
