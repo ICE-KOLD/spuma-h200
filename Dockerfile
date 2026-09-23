@@ -34,7 +34,14 @@ RUN sed -i 's/^WM_COMPILER=.*/WM_COMPILER=Nvidia/' etc/bashrc && \
 # H200 = Hopper, compute capability 9.0
 ENV have_cuda=true
 ENV NVARCH=90
-ENV NVHPC_CUDA_HOME=/usr/local/cuda-12.6
+
+# Diagnostic: locate NVIDIA HPC SDK and CUDA
+RUN nvc++ --version && \
+    echo "PATH=$PATH" && \
+    which nvc++ && \
+    which nvcc || true && \
+    find /opt/nvidia -maxdepth 5 -type f -name nvcc -print || true && \
+    find /usr/local -maxdepth 3 -type f -name nvcc -print || true
 
 # Diagnostic: verify compiler and CUDA installation
 RUN nvc++ --version && \
