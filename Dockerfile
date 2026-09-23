@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Obtain SPUMA
 WORKDIR /opt
-RUN git clone --recursive https://github.com/sbryngelson/spuma.git
+RUN git clone https://github.com/sbryngelson/spuma.git
 
 WORKDIR /opt/spuma
 
